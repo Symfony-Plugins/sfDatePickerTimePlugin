@@ -88,7 +88,11 @@ class sfWidgetFormDatePicker extends sfWidgetFormInputText
     }
 
     // Generate the datePicker javascript code
-    $jq_picker_options = json_encode($this->getOption('jq_picker_options'), JSON_FORCE_OBJECT);
+    if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+      $jq_picker_options = json_encode($this->getOption('jq_picker_options'), JSON_FORCE_OBJECT);
+    } else {
+      $jq_picker_options = json_encode($this->getOption('jq_picker_options'));
+    }
     $jq_picker_options = str_replace('\\/', '/', $jq_picker_options); // Fix for: http://bugs.php.net/bug.php?id=49366
 
     $html .= <<<EOHTML
